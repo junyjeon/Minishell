@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 17:07:15 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/13 19:55:32 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/13 20:22:08 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ char	*read_input(void)
 	return (str);
 }
 
-void	init_signal_handling()//시그널 핸들러->ctrl + c, ctrl + d, ctrl + \(SIG_IGN)
+void	init_signal_handling()//시그널 핸들러
 {
 	// Initialize signal handling
-
+	signal(SIGINT, SIG_IGN);//ctrl + c
+	signal(SIGTERM, SIG_IGN);//ctrl + d
+	signal(SIGQUIT, SIG_IGN);//ctrl + '\'
 }
 
 void init_env(t_env *env)
@@ -43,6 +45,7 @@ void init_env(t_env *env)
 	// Initialize environment variables
 	env->key = NULL;
 	env->value = NULL;
+	env->next = NULL;
 }
 
 int main(void)
@@ -52,7 +55,7 @@ int main(void)
 	t_env	env;
 	char	*input;
 	// Initialization
-	init_env(&env);
+	init_env(&env);//환경 변수 초기화
 	init_signal_handling();//시그널 핸들러 초기화
 
 	// Main loop
