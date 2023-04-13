@@ -6,17 +6,19 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 16:24:08 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/13 21:14:57 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/13 22:05:42 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdlib.h>
+# include <stdio.h>
 # include <unistd.h>
+# include <stdlib.h>
 # include <signal.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 
 /* 토큰 타입 */
 typedef enum
@@ -64,30 +66,30 @@ typedef struct s_env
 	struct s_env	*next;//다음 환경 변수
 }		t_env;
 
-/* echo -n, cd, pwd, export, unset, env, exit 명령어 */
-typedef struct s_command
-{
-	void	*command;//명령 이름
-	char	*args;//명령과 관련된 인수(문자열)에 대한 목록
-	char	*input;//입력 리다이렉션('<') 파일 이름
-	char	*output;//출력 리다이렉션('>') 파일 이름
-	int		append;//출력을 파일에 추가할지(true)/ 덮어쓸지(false)를 나타내는 부울
-	int		background;//백그라운드(true) / 포그라운드(false) 어디서 실행될지
-}		t_command;
+// /* echo -n, cd, pwd, export, unset, env, exit 명령어 */
+// typedef struct s_command
+// {
+// 	void	*command;//명령 이름
+// 	char	*args;//명령과 관련된 인수(문자열)에 대한 목록
+// 	char	*input;//입력 리다이렉션('<') 파일 이름
+// 	char	*output;//출력 리다이렉션('>') 파일 이름
+// 	int		append;//출력을 파일에 추가할지(true)/ 덮어쓸지(false)를 나타내는 부울
+// 	int		background;//백그라운드(true) / 포그라운드(false) 어디서 실행될지
+// }		t_command;
 
-typedef struct s_pipe
-{
-	void	*commands;//파이프라인의 명령(문자열)에 대한 목록
-	int		*num_commands;//파이프라인의 명령 개수
-}		t_pipe;
+// typedef struct s_pipe
+// {
+// 	void	*commands;//파이프라인의 명령(문자열)에 대한 목록
+// 	int		*num_commands;//파이프라인의 명령 개수
+// }		t_pipe;
 
-typedef struct s_shell//환경 변수
-{
-		*variables;//환경 변수
-		*history;//명령어 히스토리
-		*aliases;//명령어의 별칭
-	char	*current_directory;//현재 디렉토리
-	int		exit_status;//종료 상태
-}		t_shell;
+// typedef struct s_shell//환경 변수
+// {
+// 		*variables;//환경 변수
+// 		*history;//명령어 히스토리
+// 		*aliases;//명령어의 별칭
+// 	char	*current_directory;//현재 디렉토리
+// 	int		exit_status;//종료 상태
+// }		t_shell;
 
 #endif

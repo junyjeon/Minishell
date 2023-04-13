@@ -1,13 +1,14 @@
 NAME		=	minishell
 
 CC			=	cc -g3
-CFLAGS		=	-Wall -Wextra -Werror
+# CFLAGS		=	-Wall -Wextra -Werror
 #CFLAGS		+=	-fsanitize=address
 
-INC_DIR		=	./inc
+CPPFLAGS	=	-I$(LIBFT_DIR) -I$(RDLINE_DIR)/include
+LDFLAGS		=	-L$(RDLINE_DIR) -lreadline -L$(LIBFT_DIR) -lft
 
-CPPFLAGS	=	-I$(INC_DIR)
-LDFLAGS		=	-lreadline
+LIBFT_DIR	=	./libft
+LIBFT		=	$(LIBFT_DIR)/libft.a
 
 BUILD_DIR	=	bulid
 RDLINE_DIR	=	$(shell brew --prefix readline)
@@ -17,12 +18,15 @@ OBJ		=	$(patsubst %.c, $(BUILD_DIR)/%.o, $(SRC))
 
 all:	$(NAME)
 
-$(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) -L$(RDLINE_DIR) -o $@ $(OBJ) $(LDFLAGS)
+$(NAME): $(OBJ) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $@ $(OBJ) $(LDFLAGS)
 	@echo "$(GREEN)SUCCESS!$(END)"
 
 $(BUILD_DIR)/%.o: %.c | mkdir
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+$(LIBFT):
+	@make -C $(LIBFT_DIR) bonus
 
 mkdir:
 	@mkdir -p $(BUILD_DIR)
@@ -32,7 +36,7 @@ clean:
 	@echo "${YELLOW}> All objects files of the Minishell have been deleted.❌${END}"
 
 fclean: clean
-	@$(RM) -r $(NAME)
+	@$(RM) -r $(NAME) $(LIBFT)
 	@echo "${YELLOW}> Cleaning of the Minishell has been done.❌${END}"
 
 re: fclean
