@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 16:24:08 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/13 19:02:47 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/13 19:03:00 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_node //추상 구문 트리구조 (구문(void *data)이 추상
    [COMMAND]  [COMMAND]
    /       \  /       \
  [ls]    [-l][grep] [.txt]
-*/asd
+*/
 
 /* 환경 변수 */
 typedef struct s_env
@@ -87,6 +87,5 @@ typedef struct s_shell//환경 변수
 	char	*current_directory;//현재 디렉토리
 	int		exit_status;//종료 상태
 }		t_shell;
-}
 
 #endif

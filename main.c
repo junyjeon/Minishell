@@ -6,63 +6,82 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 17:07:15 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/12 19:12:26 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/13 19:55:32 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	readinput()
+// Include necessary headers and define data structures
+
+int	is_exit_command(char *input)
 {
-	
+	// Check if the input is an exit command
+	if (ft_strcmp(input, "exit") == 0)
+		return (1);
+	return (0);
 }
 
-int	tokenize(char **input)
+char	*read_input(void)
 {
-	int	i;
-
-	i = 0;
-	while (*input[++i])
-	{
-		input =
-	}
-	if (input)
-	return (1);
+	// Read input from stdin
+	char	*str;
+	str = readline(str);
+	addhistory(str);
+	free(str);
+	return (str);
 }
 
-int parsecommand(input_string)
+void	init_signal_handling()//시그널 핸들러->ctrl + c, ctrl + d, ctrl + \(SIG_IGN)
+{
+	// Initialize signal handling
+
+}
+
+void init_env(t_env *env)
+{
+	// Initialize environment variables
+	env->key = NULL;
+	env->value = NULL;
+}
+
+int main(void)
 {
 	t_token	tokens;
-	t_token	processed_tokens;
+	t_node	ast;
+	t_env	env;
+	char	*input;
+	// Initialization
+	init_env(&env);
+	init_signal_handling();//시그널 핸들러 초기화
 
-	tokens = tokenize(input_string);
-	if (!syntaxvalidation(tokens))
-		ft_error("Syntax error\n"); return ;
-	processed_tokens = QuoteHandling(&tokens);
-	processed_tokens = VariableExpansion(processed_tokens);
-	processed_tokens = CommandSubstitution(processed_tokens);
-	processed_tokens = WhitespaceHandling(processed_tokens);
-	processed_tokens = OperatorHandling(processed_tokens);
-	command_groups = CommandGrouping(processed_tokens);
-
-	return (command_groups);
-}
-
-int main(int ac, char **ar)
-{
-	int	input;
-	initshell();
-
+	// Main loop
 	while (1)
 	{
-		promptuser();// 사용자의 명령을 반복적으로 읽고 실행
-		input = ReadInput(); // readline
-		if (!input)
-			continue ;
-		if (ft_strncmp(input,"exit", 4) != 0)
-			break ;
-		command_groups = parsecommand(input)
-		executecommands(command_groups) // 커맨드 그룹
+		// Read input
+		input = read_input();//입력받은 명령어
+
+		// Exit condition
+		if (is_exit_command(input))//exit 명령어 입력시
+		{
+			break;
+		}
+
+		// Tokenize input
+		tokens = tokenize_input(input);
+
+		// Parse input
+		ast = parse_tokens(&tokens);
+
+		// Execute commands
+		execute_ast(&ast);
+
+		// Clean up
+		free_tokens(&tokens);
+		free_ast(&ast);
 	}
-	cleanupshell();
+
+	// Cleanup
+	cleanup_environment();
+	return (0);
 }
