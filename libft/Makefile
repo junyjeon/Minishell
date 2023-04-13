@@ -6,7 +6,7 @@
 #    By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/06 17:29:46 by junyojeo          #+#    #+#              #
-#    Updated: 2023/04/13 22:36:59 by junyojeo         ###   ########.fr        #
+#    Updated: 2023/04/13 22:37:41 by junyojeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ BUILD_DIR	=	build
 OBJ			=	$(patsubst %.c, $(BUILD_DIR)/%.o, $(SRC))
 BONUS_OBJ	=	$(patsubst %.c, $(BUILD_DIR)/%.o, $(BONUS_SRC))
 
-all :	$(NAME)
+all :
+	$(MAKE) -j $(NAME)
 
 $(NAME) : $(OBJ) ; ar rc $(NAME) $(OBJ)
 

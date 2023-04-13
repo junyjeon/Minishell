@@ -16,34 +16,37 @@ RDLINE_DIR	=	$(shell brew --prefix readline)
 SRC		=	$(addprefix ./, main.c)
 OBJ		=	$(patsubst %.c, $(BUILD_DIR)/%.o, $(SRC))
 
-all:	$(NAME)
+all:	
+	$(MAKE) -j $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-	@$(CC) $(CFLAGS) -o $@ $(OBJ) $(LDFLAGS)
-	@echo "$(GREEN)SUCCESS!$(END)"
+	@$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $^ -o $@
+	@echo "${GREEN}Minishell has been compiled!${END}"
 
 $(BUILD_DIR)/%.o: %.c | mkdir
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	@echo "${YELLOW}Compiling $<${END}"
 
 $(LIBFT):
-	@make -C $(LIBFT_DIR) bonus
+	@$(MAKE) -C $(LIBFT_DIR)
 
 mkdir:
 	@mkdir -p $(BUILD_DIR)
 
 clean:
+	@$(MAKE) -C $(LIBFT_DIR) clean
 	@$(RM) -r $(BUILD_DIR)
-	@echo "${YELLOW}> All objects files of the Minishell have been deleted.❌${END}"
-
-fclean: clean
-	@$(RM) -r $(NAME) $(LIBFT)
 	@echo "${YELLOW}> Cleaning of the Minishell has been done.❌${END}"
 
-re: fclean
-	@$(MAKE)
-	@echo "$(GREEN)Cleaned and rebuilt everything for Minishell!${END}"
+fclean: clean
+	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@$(RM) $(NAME)
+	@echo "${YELLOW}> Cleaning of the Minishell has been done.❌${END}"
 
+re: fclean all
+
+END		=	$'\x1b[0m
 GREEN	=	$'\x1b[32m
 YELLOW	=	$'\x1b[33m
 
-.PHONY: all clean fclean re mkdir
+.PHONY: all clean fclean re
