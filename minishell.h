@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 16:24:08 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/14 16:08:18 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/14 19:46:21 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@
 /* 토큰 타입 */
 typedef enum
 {
-	COMMAND,
-	ARGUMENT,
-	PIPE,
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	REDIRECT_APPEND,
-	BACKGROUND
-}	tokentype;
+	COMMAND,//명령어
+	ARGUMENT,//인수
+	PIPE,//파이프
+	REDIRECT_IN,//입력 리다이렉션
+	REDIRECT_OUT,//출력 리다이렉션
+	REDIRECT_APPEND,//출력 리다이렉션(추가)
+	BACKGROUND//백그라운드
+}		tokentype;
 
 /* 명령, 인수, 연산자(파이프, 리다이렉션)를 개별 토큰으로, 연결리스트로 만든 것 */
 typedef struct s_token
@@ -92,5 +92,14 @@ typedef struct s_env
 // 	char	*current_directory;//현재 디렉토리
 // 	int		exit_status;//종료 상태
 // }		t_shell;
+
+void	init_signal_handling();
+char	*read_input(void);
+int		is_exit_command(char *input);
+
+/* utils */
+int		ft_strcmp(const char *s1, const char *s2);
+char	**shell_split(char *input);
+
 
 #endif

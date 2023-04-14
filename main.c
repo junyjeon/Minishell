@@ -6,83 +6,98 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 17:07:15 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/14 16:08:19 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/14 19:49:06 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//exit 명령어 입력시
-int is_exit_command(char *input)
-{
-	// Check if the input is an exit command
-	if (ft_strncmp(input, "exit", 4) == 0)
-		return (1);
-	return (0);
-}
-//입력받은 명령어
-char	*read_input(void)
-{
-	char	*str;
-	str = readline("minishell$ ");
-	if (!str)
-		return (NULL);
-	rl_on_new_line();//readline 함수를 사용할 때마다 새로운 줄을 만들어주는 함수
-	rl_replace_line("", 0);
-	rl_redisplay();
-	add_history(str);
-	return (str);
-}
-//시그널 핸들러
-void	init_signal_handling()
-{
-	// Initialize signal handling
-	signal(SIGINT, SIG_IGN);//ctrl + c
-	signal(SIGTERM, SIG_IGN);//ctrl + d
-	signal(SIGQUIT, SIG_IGN);//ctrl + '\'
-}
-//환경 변수 초기화
+//터미널 세팅
 void init_env(t_env *env)
 {
-	// Initialize environment variables
 	env->key = NULL;
 	env->value = NULL;
 	env->next = NULL;
 }
 
-int main(void)
+int	token_type(char *input)
 {
-	// t_token	tokens;
-	// t_node	ast;
-	t_env	env;
+	if (ft_strcmp(input, "echo") == 0 || ft_strcmp(input, "cd") == 0 || \
+	ft_strcmp(input, "pwd") == 0 || ft_strcmp(input, "export") == 0 || \
+	ft_strcmp(input, "unset") == 0 || ft_strcmp(input, "env") == 0 || \
+	ft_strcmp(input, "exit") == 0)
+		return (COMMAND);
+	//else if ()//인수는 나중에 판단한다는데?
+	//	return (ARGUMENT);
+	else if (ft_strcmp(input, "|") == 0)//파이프
+		return (PIPE);
+	else if (ft_strcmp(input, "<") == 0)//입력 리다이렉션
+		return (REDIRECT_IN);
+	else if (ft_strcmp(input, ">") == 0)//출력 리다이렉션
+		return (REDIRECT_OUT);
+	else if (ft_strcmp(input, "<<") == 0 || ft_strcmp(input, ">>") == 0)//입출력 리다이렉션 추가
+		return (REDIRECT_APPEND);
+	return (0);
+}
+
+t_token	*tokenize(char *input)
+{
+	t_token *token;
+	
+	token = (t_token *)malloc(sizeof(t_token));
+	token->type = token_type(input);
+	return (token);
+}
+
+
+t_token	*tokenize_input(char *input)
+{
+	t_token	*tokens;
+	char	**word;
+	int		i;
+
+	// Tokenize input
+	word = shell_split(input);
+	i = -1;
+	while (word[++i])
+		tokens = tokenize(word[i]);
+	return (tokens);
+}
+
+void	main_loop(t_env *env)
+{
+	t_token	*tokens;
+	t_node	ast;
 	char	*input;
-	init_env(&env);//환경 변수 초기화
-	init_signal_handling();//시그널 핸들러 초기화
 
 	while (1)
 	{
-		// Read input
 		input = read_input();//입력받은 명령어
-		free(input);
-		// Exit condition
-		if (is_exit_command(input))//exit 명령어 입력시
-			break;
+		
+		//if (is_exit_command(input))//exit 명령어 입력시
+		//	break;
+		
+		//tokens = tokenize_input(input);//입력받은 명령어를 토큰화
+		//free(input);
+		
+		//ast = parse_tokens(&tokens);//토큰화된 명령어를 추상 구문 트리로 변환
 
-		// // Tokenize input
-		// tokens = tokenize_input(input);
+		//exsecute_ast(&ast);//명령어 실행
 
-		// // Parse input
-		// ast = parse_tokens(&tokens);
-
-		// // Execute commands
-		// execute_ast(&ast);
-
-		// // Clean up
-		// free_tokens(&tokens);
-		// free_ast(&ast);
+		//free_tokens(&tokens);
+		//free_ast(&ast);
 	}
+}
 
-	// Cleanup
-	// cleanup_environment();
+int main(void)
+{
+	t_env	env;
+
+	//init_env(&env);//환경 변수 초기화
+	init_signal_handling();//시그널 핸들러 초기화
+	
+	main_loop(&env);//메인 루프 시작(쉘 실행
+
+	//cleanup_env();//환경 변수 초기화
 	return (0);
 }

@@ -6,26 +6,18 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 19:06:36 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/12 19:06:46 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:56:50 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	size_t			i;
-	unsigned char	*x1;
-	unsigned char	*x2;
-
-	x1 = (unsigned char *)s1;
-	x2 = (unsigned char *)s2;
-	i = 0;
-	while (i < n && (x1[i] || x2[i]))
+	while (*s1 && *s2 && *s1 == *s2)
 	{
-		if (x1[i] != x2[i])
-			return (x1[i] - x2[i]);
-		i++;
+		s1++;
+		s2++;
 	}
-	return (0);
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }

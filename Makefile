@@ -13,8 +13,9 @@ LIBFT		=	$(LIBFT_DIR)/libft.a
 BUILD_DIR	=	bulid
 RDLINE_DIR	=	$(shell brew --prefix readline)
 
-SRC		=	$(addprefix ./, main.c)
-OBJ		=	$(patsubst %.c, $(BUILD_DIR)/%.o, $(SRC))
+SRC		=	$(addprefix ./, main.c utils.c)
+SRC		+=	$(addprefix is_worked/, is_worked.c)
+OBJ		=	$(patsubst ./%.c, $(BUILD_DIR)/%.o, $(SRC))
 
 all:	
 	@$(MAKE) -j $(NAME)
