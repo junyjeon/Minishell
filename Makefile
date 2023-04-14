@@ -1,7 +1,7 @@
 NAME		=	minishell
 
 CC			=	cc -g3
-# CFLAGS		=	-Wall -Wextra -Werror
+# CFLAGS	=	-Wall -Wextra -Werror
 #CFLAGS		+=	-fsanitize=address
 
 CPPFLAGS	=	-I$(LIBFT_DIR) -I$(RDLINE_DIR)/include
@@ -17,7 +17,7 @@ SRC		=	$(addprefix ./, main.c)
 OBJ		=	$(patsubst %.c, $(BUILD_DIR)/%.o, $(SRC))
 
 all:	
-	$(MAKE) -j $(NAME)
+	@$(MAKE) -j $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
 	@$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $^ -o $@
@@ -36,7 +36,6 @@ mkdir:
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	@$(RM) -r $(BUILD_DIR)
-	@echo "${YELLOW}> Cleaning of the Minishell has been done.❌${END}"
 
 fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean

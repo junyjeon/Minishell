@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 16:24:08 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/13 22:05:42 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:08:18 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <libft.h>
 
 /* 토큰 타입 */
 typedef enum

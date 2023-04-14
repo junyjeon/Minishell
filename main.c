@@ -6,25 +6,23 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 17:07:15 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/13 22:33:40 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:08:19 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Include necessary headers and define data structures
-
-// int	is_exit_command(char *input)
-// {
-// 	// Check if the input is an exit command
-// 	if (ft_strncmp(input, "exit", 4) == 0)
-// 		return (1);
-// 	return (0);
-// }
-
+//exit 명령어 입력시
+int is_exit_command(char *input)
+{
+	// Check if the input is an exit command
+	if (ft_strncmp(input, "exit", 4) == 0)
+		return (1);
+	return (0);
+}
+//입력받은 명령어
 char	*read_input(void)
 {
-	// Read input from stdin
 	char	*str;
 	str = readline("minishell$ ");
 	if (!str)
@@ -35,15 +33,15 @@ char	*read_input(void)
 	add_history(str);
 	return (str);
 }
-
-void	init_signal_handling()//시그널 핸들러
+//시그널 핸들러
+void	init_signal_handling()
 {
 	// Initialize signal handling
 	signal(SIGINT, SIG_IGN);//ctrl + c
 	signal(SIGTERM, SIG_IGN);//ctrl + d
 	signal(SIGQUIT, SIG_IGN);//ctrl + '\'
 }
-
+//환경 변수 초기화
 void init_env(t_env *env)
 {
 	// Initialize environment variables
@@ -58,11 +56,9 @@ int main(void)
 	// t_node	ast;
 	t_env	env;
 	char	*input;
-	// Initialization
 	init_env(&env);//환경 변수 초기화
 	init_signal_handling();//시그널 핸들러 초기화
 
-	// Main loop
 	while (1)
 	{
 		// Read input

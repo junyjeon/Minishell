@@ -6,7 +6,7 @@
 #    By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/06 17:29:46 by junyojeo          #+#    #+#              #
-#    Updated: 2023/04/13 22:37:41 by junyojeo         ###   ########.fr        #
+#    Updated: 2023/04/14 16:14:05 by junyojeo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,21 +31,28 @@ OBJ			=	$(patsubst %.c, $(BUILD_DIR)/%.o, $(SRC))
 BONUS_OBJ	=	$(patsubst %.c, $(BUILD_DIR)/%.o, $(BONUS_SRC))
 
 all :
-	$(MAKE) -j $(NAME)
+	@$(MAKE) -j $(NAME)
 
-$(NAME) : $(OBJ) ; ar rc $(NAME) $(OBJ)
+$(NAME) : $(OBJ) ; @ar rc $(NAME) $(OBJ) ;
+	@echo "$(GREEN)Libft has been compiled!$(END)"
 
-$(BUILD_DIR)/%.o: %.c | mkdir ; $(CC) $(CFLAGS) -c $< -o $@
+$(BUILD_DIR)/%.o: %.c | mkdir ; @$(CC) $(CFLAGS) -c $< -o $@;
 
 mkdir:
 	@mkdir -p $(BUILD_DIR)
 
-bonus : $(BONUS_OBJ) ; ar rc $(NAME) $(BONUS_OBJ)
+bonus : $(BONUS_OBJ) ; @ar rc $(NAME) $(BONUS_OBJ) ;
+	@echo "$(GREEN)Libft Bonus has been compiled!$(END)"
 
-clean : ; rm -f $(OBJ) $(BONUS_OBJ)
+clean : ; @rm -f $(OBJ) $(BONUS_OBJ)
 
-fclean : clean ; rm -f $(NAME)
+fclean : clean ; @rm -f $(NAME)
+	@echo "$(YELLOW)> Cleaning of the Libft has been done.❌$(END)"
 
 re:	fclean all
+
+END		=	$'\x1b[0m
+GREEN	=	$'\x1b[32m
+YELLOW	=	$'\x1b[33m
 
 .PHONY : all clean fclean re bonus
