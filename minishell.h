@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 16:24:08 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/14 19:46:21 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/18 04:32:47 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,18 @@ typedef enum
 /* 명령, 인수, 연산자(파이프, 리다이렉션)를 개별 토큰으로, 연결리스트로 만든 것 */
 typedef struct s_token
 {
-	tokentype		type;//명령, 인수, 파이프, 리다이렉션 타입
-	void			*data;
-	struct s_token	*next;//다음 토큰
-}		t_token;
+	tokentype	type; // 명령, 인수, 파이프, 리다이렉션 타입
+	char		*data;
+}				t_token;
 
 /* 추상 구문 트리(ATS)노드 (구문(void *data)이 추상적이어서 추상 구조 트리) */
-typedef struct s_node //추상 구문 트리구조 (구문(void *data)이 추상적이어서 추상 구조 트리)
+typedef struct s_node // 추상 구문 트리구조 (구문(void *data)이 추상적이어서 추상 구조 트리)
 {
-	tokentype		type;//명령, 인수, 파이프, 리다이렉션 타입
-	char			*data;
-	struct s_node	*left;//왼쪽 자식 노드
-	struct s_node	*right;//오른쪽 자식 노드
-}		t_node;
+	t_token			*contents;
+	struct s_node	*left;
+	struct s_node	*right;
+	struct s_node	*parents;
+}					t_node;
 
 //추상 구문 트리(AST)
 /*
