@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 16:24:08 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/18 04:32:47 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/18 23:04:57 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,33 +21,41 @@
 # include <readline/history.h>
 # include <libft.h>
 
+/* 환경 변수 */
+typedef struct s_env
+{
+	char			*key;//환경 변수 이름
+	char			*value;//환경 변수 값
+	struct s_env	*next;//다음 환경 변수
+}		t_env;
+
 /* 토큰 타입 */
 typedef enum
 {
-	COMMAND,//명령어
-	ARGUMENT,//인수
-	PIPE,//파이프
-	REDIRECT_IN,//입력 리다이렉션
-	REDIRECT_OUT,//출력 리다이렉션
-	REDIRECT_APPEND,//출력 리다이렉션(추가)
-	BACKGROUND//백그라운드
+	COMMAND,//명령어 echo, cd, pwd, export, unset, env, exit
+	ARGUMENT,//인수 "" ''
+	PIPE,//파이프 |
+	REDIRECT_IN,//입력 리다이렉션 <
+	REDIRECT_OUT,//출력 리다이렉션 >
+	REDIRECT_APPEND,//입출력 리다이렉션 << >>
 }		tokentype;
 
 /* 명령, 인수, 연산자(파이프, 리다이렉션)를 개별 토큰으로, 연결리스트로 만든 것 */
 typedef struct s_token
 {
-	tokentype	type; // 명령, 인수, 파이프, 리다이렉션 타입
-	char		*data;
-}				t_token;
+	tokentype		type;
+	char			*data;
+	struct s_token	*next;
+}					t_token;
 
 /* 추상 구문 트리(ATS)노드 (구문(void *data)이 추상적이어서 추상 구조 트리) */
-typedef struct s_node // 추상 구문 트리구조 (구문(void *data)이 추상적이어서 추상 구조 트리)
+typedef struct s_ast
 {
 	t_token			*contents;
 	struct s_node	*left;
 	struct s_node	*right;
 	struct s_node	*parents;
-}					t_node;
+}					t_ast;
 
 //추상 구문 트리(AST)
 /*
@@ -57,14 +65,6 @@ typedef struct s_node // 추상 구문 트리구조 (구문(void *data)이 추�
    /       \  /       \
  [ls]    [-l][grep] [.txt]
 */
-
-/* 환경 변수 */
-typedef struct s_env
-{
-	char			*key;//환경 변수 이름
-	char			*value;//환경 변수 값
-	struct s_env	*next;//다음 환경 변수
-}		t_env;
 
 // /* echo -n, cd, pwd, export, unset, env, exit 명령어 */
 // typedef struct s_command
@@ -79,18 +79,9 @@ typedef struct s_env
 
 // typedef struct s_pipe
 // {
-// 	void	*commands;//파이프라인의 명령(문자열)에 대한 목록
-// 	int		*num_commands;//파이프라인의 명령 개수
+// 	void	*commands;//명령어 목록
+// 	int		*num_commands;//파이프 개수
 // }		t_pipe;
-
-// typedef struct s_shell//환경 변수
-// {
-// 		*variables;//환경 변수
-// 		*history;//명령어 히스토리
-// 		*aliases;//명령어의 별칭
-// 	char	*current_directory;//현재 디렉토리
-// 	int		exit_status;//종료 상태
-// }		t_shell;
 
 void	init_signal_handling();
 char	*read_input(void);

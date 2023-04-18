@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 17:07:15 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/18 22:09:46 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/18 22:57:42 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,27 @@ int	token_type(char *input)
 	ft_strcmp(input, "unset") == 0 || ft_strcmp(input, "env") == 0 || \
 	ft_strcmp(input, "exit") == 0)
 		return (COMMAND);
-	//else if ()//인수는 나중에 판단한다는데?
-	//	return (ARGUMENT);
-	else if (ft_strcmp(input, "|") == 0)//파이프
+	else if (ft_strcmp(input, "|") == 0)
 		return (PIPE);
-	else if (ft_strcmp(input, "<") == 0)//입력 리다이렉션
+	else if (ft_strcmp(input, "<") == 0)
 		return (REDIRECT_IN);
-	else if (ft_strcmp(input, ">") == 0)//출력 리다이렉션
+	else if (ft_strcmp(input, ">") == 0)
 		return (REDIRECT_OUT);
-	else if (ft_strcmp(input, "<<") == 0 || ft_strcmp(input, ">>") == 0)//입출력 리다이렉션 추가
+	else if (ft_strcmp(input, "<<") == 0 || ft_strcmp(input, ">>") == 0)
 		return (REDIRECT_APPEND);
-	return (0);
+	else
+		return (ARGUMENT);
 }
 
 t_token	*tokenize(char *word)
 {
 	t_token *token;
-	
+
 	token = (t_token *)malloc(sizeof(t_token));
 	token->type = token_type(word);
 	token->data = word;
 	return (token);
 }
-
 
 t_token	*tokenize_input(char *input)
 {
@@ -57,7 +55,6 @@ t_token	*tokenize_input(char *input)
 	char	**word;
 	int		i;
 
-	// Tokenize input
 	word = shell_split(input);
 	i = -1;
 	while (word[++i])
@@ -68,21 +65,17 @@ t_token	*tokenize_input(char *input)
 void	main_loop(t_env *env)
 {
 	t_token	*tokens;
-	t_node	ast;
+	t_ast	ast;
 	char	*input;
 
 	while (1)
 	{
-		input = read_input();//입력받은 명령어
-		
-		if (is_exit_command(input))//exit 명령어 입력시
+		input = read_input();
+		if (is_exit_command(input))
 			break;
-		
-		tokens = tokenize_input(input);//입력받은 명령어를 토큰화
+		tokens = tokenize_input(input);
 		free(input);
-		
 		//ast = parse_tokens(&tokens);//토큰화된 명령어를 추상 구문 트리로 변환
-
 		//exsecute_ast(&ast);//명령어 실행
 
 		//free_tokens(&tokens);
