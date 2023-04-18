@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 17:07:15 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/14 19:49:06 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/18 22:09:46 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,13 @@ int	token_type(char *input)
 	return (0);
 }
 
-t_token	*tokenize(char *input)
+t_token	*tokenize(char *word)
 {
 	t_token *token;
 	
 	token = (t_token *)malloc(sizeof(t_token));
-	token->type = token_type(input);
+	token->type = token_type(word);
+	token->data = word;
 	return (token);
 }
 
@@ -74,11 +75,11 @@ void	main_loop(t_env *env)
 	{
 		input = read_input();//입력받은 명령어
 		
-		//if (is_exit_command(input))//exit 명령어 입력시
-		//	break;
+		if (is_exit_command(input))//exit 명령어 입력시
+			break;
 		
-		//tokens = tokenize_input(input);//입력받은 명령어를 토큰화
-		//free(input);
+		tokens = tokenize_input(input);//입력받은 명령어를 토큰화
+		free(input);
 		
 		//ast = parse_tokens(&tokens);//토큰화된 명령어를 추상 구문 트리로 변환
 
