@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 02:35:14 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/19 02:50:59 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/19 11:13:40 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int main(void)
 	char **word;
 	int i;
 
-	input = "ls -a -l >> a < b > c | grep \"\" | cat << x > y | cat 'a' 'b' \"abc\" | export HELLLO=\"beautiful world\"";
+	input = "ls | grep .c | grep cmd > test";
 	word = shell_split(input);
 	for (i = 0; word[i] != NULL; i++)
 		printf("%s\n", word[i]);
