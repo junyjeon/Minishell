@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 17:07:15 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/18 22:57:42 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/20 05:18:21 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,23 @@ t_token	*tokenize(char *word)
 	token = (t_token *)malloc(sizeof(t_token));
 	token->type = token_type(word);
 	token->data = word;
+	token->next = NULL;
 	return (token);
 }
 
 t_token	*tokenize_input(char *input)
 {
-	t_token	*tokens;
+	t_token	**tokens;
 	char	**word;
 	int		i;
 
 	word = shell_split(input);
 	i = -1;
 	while (word[++i])
-		tokens = tokenize(word[i]);
+	{
+		*tokens = tokenize(word[i]);
+		*tokens = (*tokens)->next;
+	}
 	return (tokens);
 }
 
@@ -83,7 +87,7 @@ void	main_loop(t_env *env)
 	}
 }
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
 	t_env	env;
 

@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 16:18:24 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/14 19:17:00 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/04/20 05:13:38 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ char	*read_input(void)//아직 안되는 함수
 	str = readline("minishell$ ");
 	if (!str)
 		return (NULL);
-	rl_on_new_line();//readline 함수를 사용할 때마다 새로운 줄을 만들어주는 함수
-	rl_replace_line(str, 0);//입력한 명령어를 readline에 출력
-	rl_redisplay();//
+	// rl_on_new_line();//readline 함수를 사용할 때마다 새로운 줄을 만들어주는 함수
+	// rl_replace_line(str, 0);//입력한 명령어를 readline에 출력
+	// rl_redisplay();//
 	add_history(str);//입력한 명령어를 history에 저장
 	return (str);
 }
