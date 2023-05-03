@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 02:35:14 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/05/03 16:34:20 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:35:57 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ void	print_error(char *str)
 
 char	*env_search(char *input, char *word, int *j, int *k)
 {
-	char	*value;
+	// char	*value;
 	
-	while (input[*k] != '\0' || input[*k] != ' ' || input[*k] != '\"' || input[*k] != '\'')//괄호는 아직 안함
-	{
-		word[*j] = input[*k + *j];
-		j++;
-	}
-	value = find_value_by_key(key);
+	// while (input[*k] != '\0' || input[*k] != ' ' || input[*k] != '\"' || input[*k] != '\'')//괄호는 아직 안함
+	// {
+	// 	word[*j] = input[*k + *j];
+	// 	j++;
+	// }
+	// value = find_value_by_key(key);
 	// word[j]의 word_len의 값을 value의 ft_strlen(value);
-	return (value);
+	// return (value);
 }
 
 int word_len(char *input, int i)
@@ -101,11 +101,8 @@ char	**shell_split(char *input)
 				single_quote = !single_quote;
 			if (input[k] == '$' && !single_quote)//환경변수라면( ' 안에서는 환경변수가 아님)
 				env_search(input, word[i], &j, &k);
-			else
-			{
-				word[i][++j] = input[k];
-				k++;
-			}
+			word[i][++j] = input[k];
+			k++;
 		}
 		word[i][j + 1] = '\0';
 		while (input[k] == ' ')//단어 뒤 공백이 있을 때(단어의 끝) 
