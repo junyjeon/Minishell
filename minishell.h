@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 16:24:08 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/05/03 16:03:16 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:30:52 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		is_exit_command(char *input);
 /* utils */
 int		ft_strcmp(const char *s1, const char *s2);
 char	**shell_split(char *input);
-void	print_error(char *str)
+void	print_error(char *str);
 
 
 #endif

@@ -6,29 +6,50 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 02:35:14 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/05/03 16:09:40 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:34:20 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	print_error(char *str)
+{
+	while (*str)
+		write(1, str++, 1);
+	exit(1);
+}
+
+char	*env_search(char *input, char *word, int *j, int *k)
+{
+	char	*value;
+	
+	while (input[*k] != '\0' || input[*k] != ' ' || input[*k] != '\"' || input[*k] != '\'')//괄호는 아직 안함
+	{
+		word[*j] = input[*k + *j];
+		j++;
+	}
+	value = find_value_by_key(key);
+	// word[j]의 word_len의 값을 value의 ft_strlen(value);
+	return (value);
+}
+
 int word_len(char *input, int i)
 {
-	int cnt;
+	int len;
 	int double_quote = 0;
 	int single_quote = 0;
 
-	cnt = 0;
-	while (input[i] && (double_quote || single_quote || input[i] != ' '))
+	len = 0;
+	while (input[i] && (input[i] != ' ' || double_quote || single_quote))
 	{
 		if (input[i] == '\"')
 			double_quote = !double_quote;
 		else if (input[i] == '\'')
 			single_quote = !single_quote;
-		cnt++;
+		len++;
 		i++;
 	}
-	return (cnt);
+	return (len);
 }
 
 int	word_cnt(char *input, int double_quote, int single_quote)
@@ -40,37 +61,26 @@ int	word_cnt(char *input, int double_quote, int single_quote)
 	i = -1;
 	while (input[++i])
 	{
-		if (input[i] == '\"')//더블따옴표 열기 -> double_quote = 1;
+		if (input[i] == '\"')// " 열기 -> double_quote = 1;
 			double_quote = !double_quote;
-		else if (input[i] == '\'')//작은 따옴표 열기
+		else if (input[i] == '\'')// ' 열기
 			single_quote = !single_quote;
-		if ((input[i] == ' ' || input[i + 1] == '\0') && !double_quote && !single_quote)//공백이거나 문자열의 끝이고 따옴표가 닫혀있다면 단어개수 세기
-			cnt++;
+		if ((input[i + 1] == '\0' || input[i] == ' ') && !double_quote && !single_quote)// (\0 or ' ') && 따옴표가 닫혀있다면
+			cnt++;//단어 세기
 	}
-	// if (single_quote || double_quote)//따옴표가 안닫힌 경우
-	// 	print_error("Error: The quotation marks are not closed.\n");
+	if (single_quote || double_quote)//따옴표가 안닫혔으면
+		print_error("Error: The quotation marks are not closed.\n");
 	return (cnt);
 }
 
-// char	*env_search(char *input, char *word, int j, int *k)
-// {
-// 	char	*value;
-	
-// 	while (input[*k] != '\0' || input[*k] != ' ' || input[*k] != '\"' || input[*k] != '\'')//괄호는 아직 안함
-// 		word[j] = input[*k + j];		
-// 	value = find_value_by_key(key);
-// 	word[j]의 word_len의 값을 value의 ft_strlen(value);
-// 	return (value);
-// }
-
 char	**shell_split(char *input)
 {
-	char **word;
-	int i;//단어 인덱스
-	int j;//단어의 문자 인덱스
-	int k;//input(전체 문자열)의 인덱스
-	int double_quote;//큰 따옴표 플래그
-	int single_quote;//작은 따옴표 플래그
+	char	**word;
+	int		i;// 단어 인덱스
+	int		j;// 단어의 문자 인덱스
+	int		k;// input(전체 문자열)의 인덱스
+	int		double_quote;// " 플래그
+	int		single_quote;// ' 플래그
 	
 	double_quote = 0;
 	single_quote = 0;
@@ -89,8 +99,8 @@ char	**shell_split(char *input)
 				double_quote = !double_quote;
 			else if (input[k] == '\'')//작은 따옴표 닫기
 				single_quote = !single_quote;
-			if (input[k] == '$' && !single_quote)//환경변수라면( ' 빼고)
-				env_search(input, word[i], j, &k);
+			if (input[k] == '$' && !single_quote)//환경변수라면( ' 안에서는 환경변수가 아님)
+				env_search(input, word[i], &j, &k);
 			else
 			{
 				word[i][++j] = input[k];
