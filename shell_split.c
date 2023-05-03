@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 02:35:14 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/04/19 11:13:40 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:30:32 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,10 @@ int word_len(char *input, int i)
 	return (cnt);
 }
 
-int word_cnt(char *input)
+int word_cnt(char *input, int double_quote, int single_quote)
 {
 	int i;
 	int cnt;
-	int double_quote = 0;
-	int single_quote = 0;
 
 	cnt = 0;
 	i = -1;
@@ -58,13 +56,15 @@ char **shell_split(char *input)
 	int i;
 	int j;
 	int k;
-	int double_quote = 0;
-	int single_quote = 0;
-
-	word = (char **)malloc(sizeof(char *) * (word_cnt(input) + 1));
-	i = -1;
+	int double_quote;
+	int single_quote;
+	
+	double_quote = 0;
+	single_quote = 0;
+	word = (char **)malloc(sizeof(char *) * (word_cnt(input, double_quote, single_quote) + 1));
+	i = -1; 
 	k = 0;
-	while (++i < word_cnt(input))
+	while (++i < word_cnt(input, double_quote, single_quote))
 	{
 		word[i] = (char *)malloc(sizeof(char) * (word_len(input, k) + 1));
 		if (!word[i])
@@ -93,7 +93,7 @@ int main(void)
 	char **word;
 	int i;
 
-	input = "ls | grep .c | grep cmd > test";
+	input = "ls | echo " " | grep .c | grep cmd > test";
 	word = shell_split(input);
 	for (i = 0; word[i] != NULL; i++)
 		printf("%s\n", word[i]);
