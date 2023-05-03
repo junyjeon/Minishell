@@ -6,18 +6,11 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 17:07:15 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/05/03 14:33:25 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:03:25 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_error(char *str)
-{
-	while(*str)
-		write(1, str++, 1);
-	exit(1);
-}
 
 //터미널 세팅
 void init_env(t_env *env)

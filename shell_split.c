@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 02:35:14 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/05/03 15:57:00 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:09:40 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,21 @@ int	word_cnt(char *input, int double_quote, int single_quote)
 		if ((input[i] == ' ' || input[i + 1] == '\0') && !double_quote && !single_quote)//공백이거나 문자열의 끝이고 따옴표가 닫혀있다면 단어개수 세기
 			cnt++;
 	}
-	if (single_quote || double_quote)//따옴표가 안닫힌 경우
-		print_error("Error: The quotation marks are not closed.\n");
+	// if (single_quote || double_quote)//따옴표가 안닫힌 경우
+	// 	print_error("Error: The quotation marks are not closed.\n");
 	return (cnt);
 }
 
-char	*env_search(char *input, char *word, int i, int *k)
-{
-	char	*value;
-	int		j;
+// char	*env_search(char *input, char *word, int j, int *k)
+// {
+// 	char	*value;
 	
-	j = -0;
-	while (input[*k] != '\0' || input[*k] != ' ' || input[*k] != '\"' || input[*k] != '\'')
-		
-		j++;
-	}
-	value = find_value_by_key(key);
-	word[[i]의 word_len의 값을 value의 ft_strlen(value);
-	return (value);
-}
+// 	while (input[*k] != '\0' || input[*k] != ' ' || input[*k] != '\"' || input[*k] != '\'')//괄호는 아직 안함
+// 		word[j] = input[*k + j];		
+// 	value = find_value_by_key(key);
+// 	word[j]의 word_len의 값을 value의 ft_strlen(value);
+// 	return (value);
+// }
 
 char	**shell_split(char *input)
 {
@@ -93,12 +89,13 @@ char	**shell_split(char *input)
 				double_quote = !double_quote;
 			else if (input[k] == '\'')//작은 따옴표 닫기
 				single_quote = !single_quote;
-			else if (input[k] == '$' && !single_quote)//환경변수라면( ' 빼고)
-				env_search(input, word[i], i, &k);
+			if (input[k] == '$' && !single_quote)//환경변수라면( ' 빼고)
+				env_search(input, word[i], j, &k);
 			else
-				
-			word[i][++j] = input[k];
-			k++;
+			{
+				word[i][++j] = input[k];
+				k++;
+			}
 		}
 		word[i][j + 1] = '\0';
 		while (input[k] == ' ')//단어 뒤 공백이 있을 때(단어의 끝) 
