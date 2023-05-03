@@ -8,8 +8,8 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "Debug",
-			"program": "${workspaceFolder}/fdf",
-			"args": ["test_maps/42.fdf"],
+			"program": "${workspaceFolder}/minishell",
+			"args": [""],
 			"cwd": "${workspaceFolder}",
 			//"MIMode": "lldb",S
 			"preLaunchTask": "build"
