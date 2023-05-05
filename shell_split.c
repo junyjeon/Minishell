@@ -6,7 +6,7 @@
 /*   By: junyojeo <junyojeo@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 02:35:14 by junyojeo          #+#    #+#             */
-/*   Updated: 2023/05/03 17:35:57 by junyojeo         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:34:10 by junyojeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ int	word_cnt(char *input, int double_quote, int single_quote)
 			double_quote = !double_quote;
 		else if (input[i] == '\'')// ' 열기
 			single_quote = !single_quote;
-		if ((input[i + 1] == '\0' || input[i] == ' ') && !double_quote && !single_quote)// (\0 or ' ') && 따옴표가 닫혀있다면
+		if ((input[i + 1] == '\0' || input[i] == ' ' || input[i] == '|' \
+		|| input[i] == '<' || input[i] == '<<' || input[i] == '>' || input[i] == '>>' ) \
+		&& !double_quote && !single_quote)// (\0 or ' ' or 리다이렉션) && 따옴표가 닫혀있다면
 			cnt++;//단어 세기
 	}
 	if (single_quote || double_quote)//따옴표가 안닫혔으면
@@ -118,7 +120,7 @@ int main(void)
 	char **word;
 	int i;
 
-	input = "echo -n \"123 456 $env 789\" > test.c | echo < test.c | ls >> test_ls.c | echo << test.c test_ls | cd | pwd | export | unset | env | exit";
+	input = "echo -n \"123 456 $env 789\" > test.c|echo < test.c | ls >> test_ls.c | echo << test.c test_ls | cd | pwd | export | unset | env | exit";
 	word = shell_split(input);
 	for (i = 0; word[i] != NULL; i++)
 		printf("%s\n", word[i]);
